@@ -1,4 +1,4 @@
-package com.feike.mrp.support;
+package com.feike.mrp.support.web;
 
 import com.feike.mrp.support.web.GlobResponseBodyAdviceAdapter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

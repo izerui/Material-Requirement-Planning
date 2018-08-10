@@ -1,4 +1,4 @@
-package com.feike.mrp.support;
+package com.feike.mrp.support.druid;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;

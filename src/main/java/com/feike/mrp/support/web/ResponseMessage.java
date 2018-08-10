@@ -1,4 +1,4 @@
-package com.feike.mrp.support;
+package com.feike.mrp.support.web;
 
 public class ResponseMessage<T> {
     /**

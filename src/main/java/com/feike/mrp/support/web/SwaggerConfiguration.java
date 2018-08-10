@@ -1,4 +1,4 @@
-package com.feike.mrp.support;
+package com.feike.mrp.support.web;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.feike.mrp.support;
+package com.feike.mrp.support.jpa;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
