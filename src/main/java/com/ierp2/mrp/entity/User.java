@@ -31,6 +31,9 @@ public class User extends BaseEntity {
     //登录账号/手机号
     private String account;
 
+    //密码
+    private String password;
+
     //部门编号
     private String departmentCode;
 
