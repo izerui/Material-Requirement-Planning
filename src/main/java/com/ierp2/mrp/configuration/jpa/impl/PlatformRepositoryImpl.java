@@ -13,9 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.ierp2.mrp.support.jpa.impl;
+package com.ierp2.mrp.configuration.jpa.impl;
 
-import com.ierp2.mrp.support.jpa.PlatformJpaRepository;
+import com.ierp2.mrp.configuration.jpa.PlatformJpaRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

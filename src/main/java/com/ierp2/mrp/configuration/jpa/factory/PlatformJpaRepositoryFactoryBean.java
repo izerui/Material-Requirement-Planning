@@ -1,7 +1,7 @@
-package com.ierp2.mrp.support.jpa.factory;
+package com.ierp2.mrp.configuration.jpa.factory;
 
-import com.ierp2.mrp.support.jpa.PlatformJpaRepository;
-import com.ierp2.mrp.support.jpa.impl.PlatformRepositoryImpl;
+import com.ierp2.mrp.configuration.jpa.PlatformJpaRepository;
+import com.ierp2.mrp.configuration.jpa.impl.PlatformRepositoryImpl;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean;

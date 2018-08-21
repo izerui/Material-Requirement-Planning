@@ -1,4 +1,4 @@
-package com.ierp2.mrp.support.security;
+package com.ierp2.mrp.configuration.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationServiceException;

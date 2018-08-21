@@ -1,7 +1,7 @@
 package com.ierp2.mrp;
 
 
-import com.ierp2.mrp.support.jpa.factory.PlatformJpaRepositoryFactoryBean;
+import com.ierp2.mrp.configuration.jpa.factory.PlatformJpaRepositoryFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.system.ApplicationPidFileWriter;

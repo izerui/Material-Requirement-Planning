@@ -1,4 +1,4 @@
-package com.ierp2.mrp.support.web;
+package com.ierp2.mrp.configuration.web;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

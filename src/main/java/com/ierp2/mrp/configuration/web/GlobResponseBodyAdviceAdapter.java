@@ -1,6 +1,6 @@
-package com.ierp2.mrp.support.web;
+package com.ierp2.mrp.configuration.web;
 
-import com.ierp2.mrp.support.BusinessException;
+import com.ierp2.mrp.configuration.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

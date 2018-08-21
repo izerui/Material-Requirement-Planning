@@ -1,6 +1,6 @@
-package com.ierp2.mrp.support.jpa;
+package com.ierp2.mrp.configuration.jpa;
 
-import com.ierp2.mrp.support.jpa.impl.Conditions;
+import com.ierp2.mrp.configuration.jpa.impl.Conditions;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

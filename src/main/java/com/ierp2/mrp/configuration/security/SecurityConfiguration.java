@@ -1,4 +1,4 @@
-package com.ierp2.mrp.support.security;
+package com.ierp2.mrp.configuration.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ierp2.mrp.entity.Resource;
@@ -25,7 +25,6 @@ import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuc
 import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.GenericFilterBean;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -79,7 +78,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private void onLoginSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         if (isAjax(request)) {
-            writeResponse(response, true, "SUCCESS", null, null);
+            writeResponse(response, true, "SUCCESS", null, "登录成功");
         } else {
             SavedRequestAwareAuthenticationSuccessHandler handler = new SavedRequestAwareAuthenticationSuccessHandler();
             handler.setDefaultTargetUrl("/");
@@ -90,7 +89,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private void onLoginFail(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         if (isAjax(request)) {
-            writeResponse(response, false, "FAIL", null, null);
+            writeResponse(response, false, "FAIL", null, "登录失败");
         } else {
             SimpleUrlAuthenticationFailureHandler failureHandler = new SimpleUrlAuthenticationFailureHandler("/login?error");
             failureHandler.onAuthenticationFailure(request, response, exception);

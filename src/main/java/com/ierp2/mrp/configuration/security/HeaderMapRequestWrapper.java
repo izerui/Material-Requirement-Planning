@@ -1,4 +1,4 @@
-package com.ierp2.mrp.support.security;
+package com.ierp2.mrp.configuration.security;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;

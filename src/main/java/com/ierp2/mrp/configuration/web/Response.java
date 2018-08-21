@@ -1,6 +1,9 @@
-package com.ierp2.mrp.support.web;
+package com.ierp2.mrp.configuration.web;
 
-public class ResponseMessage<T> {
+import io.swagger.annotations.ApiModelProperty;
+
+public class Response<T> {
+
     /**
      * 请求处理是否成功
      */
@@ -21,19 +24,20 @@ public class ResponseMessage<T> {
      */
     private T data;
 
+    @ApiModelProperty(hidden = true)
     private Exception exception;
 
-    protected ResponseMessage() {
+    protected Response() {
     }
 
-    protected ResponseMessage(boolean success, String errCode, String errMsg, T data) {
+    protected Response(boolean success, String errCode, String errMsg, T data) {
         this.success = success;
         this.errCode = errCode;
         this.errMsg = errMsg;
         this.data = data;
     }
 
-    protected ResponseMessage(boolean success, String errCode, String errMsg, T data, Exception exception) {
+    protected Response(boolean success, String errCode, String errMsg, T data, Exception exception) {
         this.success = success;
         this.errCode = errCode;
         this.errMsg = errMsg;
@@ -44,29 +48,29 @@ public class ResponseMessage<T> {
     /**
      * 成功
      */
-    public static ResponseMessage success() {
-        return new ResponseMessage<>(true, null, null, null);
+    public static Response success() {
+        return new Response<>(true, null, null, null);
     }
 
     /**
      * 成功
      */
-    public static <T> ResponseMessage success(T data) {
-        return new ResponseMessage<>(true, null, null, data);
+    public static <T> Response success(T data) {
+        return new Response<>(true, null, null, data);
     }
 
     /**
      * 失败
      */
-    public static ResponseMessage error(String errCode, String errMsg) {
-        return new ResponseMessage<>(false, errCode, errMsg, null);
+    public static Response error(String errCode, String errMsg) {
+        return new Response<>(false, errCode, errMsg, null);
     }
 
     /**
      * 失败
      */
-    public static <T> ResponseMessage<T> error(String errCode, String errMsg, Exception exception) {
-        return new ResponseMessage<>(false, errCode, errMsg, null, exception);
+    public static <T> Response<T> error(String errCode, String errMsg, Exception exception) {
+        return new Response<>(false, errCode, errMsg, null, exception);
     }
 
     public boolean isSuccess() {
