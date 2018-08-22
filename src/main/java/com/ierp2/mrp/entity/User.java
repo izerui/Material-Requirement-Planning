@@ -1,5 +1,6 @@
 package com.ierp2.mrp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -32,6 +33,7 @@ public class User extends BaseEntity {
     private String account;
 
     //密码
+    @JsonIgnore
     private String password;
 
     //部门编号

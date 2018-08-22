@@ -131,4 +131,7 @@ public class RbacService implements UserDetailsService {
         return resourceDao.findAll();
     }
 
+    public User getUserByUserCode(String userCode) {
+        return userDao.findOne(Conditions.where("userCode").is(userCode));
+    }
 }

@@ -185,9 +185,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     private boolean isAjax(HttpServletRequest request) {
-        String accept = request.getContentType();
+        String accept = request.getHeader("accept");
         if (accept == null) {
-            accept = request.getHeader("accept");
+            accept = request.getContentType();
         }
         return accept.contains("application/json");
     }
