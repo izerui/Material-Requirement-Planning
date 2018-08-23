@@ -20,7 +20,6 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -47,11 +46,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     ObjectMapper objectMapper;
 
 
-
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(rbacService);
+        provider.setHideUserNotFoundExceptions(false);
         provider.setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
         return provider;
     }
@@ -63,17 +62,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         switchUserFilter.setUsernameParameter("entCode");
         switchUserFilter.setSuccessHandler(this::onLoginSuccess);
         return switchUserFilter;
-    }
-
-    @Bean
-    public LoginAuthenticationFilter loginAuthenticationFilter() throws Exception {
-        LoginAuthenticationFilter filter = new LoginAuthenticationFilter();
-        filter.setAuthenticationFailureHandler(this::onLoginFail);
-        filter.setAuthenticationSuccessHandler(this::onLoginSuccess);
-
-        //https://www.jianshu.com/p/693914564406
-        filter.setAuthenticationManager(authenticationManager());
-        return filter;
     }
 
     private void onLoginSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
@@ -89,7 +77,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private void onLoginFail(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         if (isAjax(request)) {
-            writeResponse(response, false, "FAIL", null, "登录失败");
+            writeResponse(response, false, "FAIL", null, exception.getMessage());
         } else {
             SimpleUrlAuthenticationFailureHandler failureHandler = new SimpleUrlAuthenticationFailureHandler("/login?error");
             failureHandler.onAuthenticationFailure(request, response, exception);
@@ -113,9 +101,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             }
         }
 
-        http
-                .csrf().disable()
-                .addFilterAt(loginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+        http.csrf()
+                .disable();
+
+        http.formLogin()
+                .loginPage("/login")
+                .failureHandler(this::onLoginFail)
+                .successHandler(this::onLoginSuccess)
+                .permitAll();
+
+        http.authorizeRequests()
+                .antMatchers(
+                        "/login",
+                        "/v2/api-docs",
+                        "/swagger-resources",
+                        "/swagger-resources/configuration/ui",
+                        "/swagger-resources/configuration/security"
+                )
+                .permitAll()
+                .anyRequest()
+                .authenticated();
+
+        http.addFilter(switchUserFilter())
                 .addFilterAfter(new GenericFilterBean() {
                     @Override
                     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -127,21 +134,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         wrapper.addHeader("entCode", loginUser.getEntCode());
                         filterChain.doFilter(wrapper, servletResponse);
                     }
-                }, SwitchUserFilter.class)
-                .authorizeRequests()
-                .antMatchers(
-                        "/login",
-                        "/v2/api-docs",
-                        "/swagger-resources",
-                        "/swagger-resources/configuration/ui",
-                        "/swagger-resources/configuration/security"
-                )
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .addFilter(switchUserFilter())
-                .exceptionHandling()
+                }, SwitchUserFilter.class);
+
+        http.exceptionHandling()
                 .accessDeniedHandler((request, response, accessDeniedException) -> {
                     if (isAjax(request)) {
                         writeResponse(response, false, accessDeniedException.getMessage(), "ACCESS_DENIED", "没有权限");
@@ -160,9 +155,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             super.commence(request, response, authException);
                         }
                     }
-                })
-                .and()
-                .logout()
+                });
+
+        http.logout()
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)

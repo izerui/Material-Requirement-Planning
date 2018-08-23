@@ -66,7 +66,7 @@ public class RbacService implements UserDetailsService {
             return createUser(users.get(0));
         }
         //没有可用的账套
-        throw new UsernameNotFoundException("用户登录失败");
+        throw new UsernameNotFoundException("账号或密码错误");
     }
 
     private UserSession createUser(User user) {
