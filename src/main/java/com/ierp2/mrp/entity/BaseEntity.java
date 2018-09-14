@@ -1,8 +1,11 @@
 package com.ierp2.mrp.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
 
+@Data
 @MappedSuperclass
 public abstract class BaseEntity {
 
@@ -16,9 +19,11 @@ public abstract class BaseEntity {
     protected int version;
 
     //创建者
+    @Column(updatable = false)
     protected String creator;
 
     //创建日期
+    @Column(updatable = false)
     protected Date createTime = new Date();
 
     //修改者

@@ -6,5 +6,5 @@ import com.ierp2.mrp.configuration.jpa.PlatformJpaRepository;
 import java.util.List;
 
 public interface UserRoleDao extends PlatformJpaRepository<UserRole,Long> {
-    List<UserRole> findByEntCodeAndUserCode(String entCode, String userCode);
+    List<UserRole> findByTenantCodeAndUserCode(String tenantCode, String userCode);
 }

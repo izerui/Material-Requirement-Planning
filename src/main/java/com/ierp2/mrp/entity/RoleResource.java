@@ -14,8 +14,8 @@ public class RoleResource {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //账套编号
-    private String entCode;
+    //租户编号
+    private String tenantCode;
 
     //角色编号
     private String roleCode;

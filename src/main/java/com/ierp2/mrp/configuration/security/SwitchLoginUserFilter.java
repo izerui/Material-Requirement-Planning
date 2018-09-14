@@ -16,7 +16,7 @@ public class SwitchLoginUserFilter extends SwitchUserFilter {
         String account = UserSession.getUser().getAccount();
         request.setAttribute("switchUser", true);
         request.setAttribute("account", account);
-        request.setAttribute("entCode", request.getParameter("entCode"));
+        request.setAttribute("tenantCode", request.getParameter("tenantCode"));
         return super.attemptSwitchUser(request);
     }
 }

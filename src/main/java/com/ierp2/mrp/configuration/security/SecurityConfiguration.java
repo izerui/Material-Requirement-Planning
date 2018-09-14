@@ -59,7 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public SwitchLoginUserFilter switchUserFilter() {
         SwitchLoginUserFilter switchUserFilter = new SwitchLoginUserFilter();
         switchUserFilter.setUserDetailsService(rbacService);
-        switchUserFilter.setUsernameParameter("entCode");
+        switchUserFilter.setUsernameParameter("tenantCode");
         switchUserFilter.setSuccessHandler(this::onLoginSuccess);
         return switchUserFilter;
     }
@@ -131,7 +131,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         HeaderMapRequestWrapper wrapper = new HeaderMapRequestWrapper(httpRequest);
                         wrapper.addHeader("account", loginUser.getAccount());
                         wrapper.addHeader("userCode", loginUser.getUserCode());
-                        wrapper.addHeader("entCode", loginUser.getEntCode());
+                        wrapper.addHeader("tenantCode", loginUser.getTenantCode());
                         filterChain.doFilter(wrapper, servletResponse);
                     }
                 }, SwitchUserFilter.class);

@@ -27,7 +27,7 @@ public class User extends BaseEntity {
     private int recordStatus;
 
     //账套
-    private String entCode;
+    private String tenantCode;
 
     //登录账号/手机号
     private String account;

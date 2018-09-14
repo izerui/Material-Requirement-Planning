@@ -6,22 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-//角色
+//租户
 @Data
 @Entity
-@Table(name = "role")
-public class Role extends BaseEntity {
-
-    //状态
+@Table(name = "tenant")
+public class Tenant extends BaseEntity {
     private int recordStatus;
-
-    //租户编号
-    private String tenantCode;
-
-    //角色编号
     @Column(unique = true, nullable = false, updatable = false, length = 64)
-    private String roleCode;
-
-    //角色名称
-    private String roleName;
+    private String tenantCode;
+    private String tenantName;
 }

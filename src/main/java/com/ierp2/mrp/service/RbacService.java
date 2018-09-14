@@ -50,22 +50,22 @@ public class RbacService implements UserDetailsService {
         if (swithUser != null && swithUser) {
             account = (String) request.getAttribute("account");
         }
-        //获取账号下多个账套
+        //获取账号下多个租户下的用户
         Conditions conditions = Conditions.where("account").is(account).and("recordStatus").is(1);
         List<User> users = userDao.findAll(conditions);
         if (users != null && users.size() > 0) {
-            String entCode = (String) request.getAttribute("entCode");
-            //指定登录的账套
-            if (isNotEmpty(entCode)) {
-                Optional<User> first = users.stream().filter(user -> user.getEntCode().equals(entCode)).findFirst();
+            String tenantCode = (String) request.getAttribute("tenantCode");
+            //指定登录的租户用户
+            if (isNotEmpty(tenantCode)) {
+                Optional<User> first = users.stream().filter(user -> user.getTenantCode().equals(tenantCode)).findFirst();
                 if (first.isPresent()) {
                     return createUser(first.get());
                 }
             }
-            //取第一个可用的账套
+            //取第一个可用的租户用户
             return createUser(users.get(0));
         }
-        //没有可用的账套
+        //没有可用的租户用户
         throw new UsernameNotFoundException("账号或密码错误");
     }
 
@@ -83,10 +83,10 @@ public class RbacService implements UserDetailsService {
                 true,
                 AuthorityUtils.createAuthorityList(authorities.toArray(new String[authorities.size()]))
         );
-        //账套权限 权限集合
+        //权限集合
         userSession.setAccount(user.getAccount());
         userSession.setUserCode(user.getUserCode());
-        userSession.setEntCode(user.getEntCode());
+        userSession.setTenantCode(user.getTenantCode());
         return userSession;
     }
 
@@ -99,9 +99,9 @@ public class RbacService implements UserDetailsService {
                 authorities.add(resource.getResourceCode());
             }
         } else {
-            List<Role> roles = this.findRolesByUserCode(user.getEntCode(), user.getUserCode());
+            List<Role> roles = this.findRolesByUserCode(user.getTenantCode(), user.getUserCode());
             for (Role role : roles) {
-                List<Resource> resources = this.findResourcesByRoleCode(role.getEntCode(), role.getRoleCode());
+                List<Resource> resources = this.findResourcesByRoleCode(role.getTenantCode(), role.getRoleCode());
                 for (Resource resource : resources) {
                     authorities.add(resource.getResourceCode());
                 }
@@ -110,19 +110,19 @@ public class RbacService implements UserDetailsService {
         return authorities;
     }
 
-    public List<Resource> findResourcesByRoleCode(String entCode, String roleCode) {
-        List<RoleResource> roleResources = roleResourceDao.findByEntCodeAndRoleCode(entCode, roleCode);
+    public List<Resource> findResourcesByRoleCode(String tenantCode, String roleCode) {
+        List<RoleResource> roleResources = roleResourceDao.findByTenantCodeAndRoleCode(tenantCode, roleCode);
         List<String> resourceCodes = roleResources.stream().map(RoleResource::getResourceCode).collect(Collectors.toList());
         Conditions conditions = Conditions
                 .where("resourceCode").in(resourceCodes);
         return resourceDao.findAll(conditions);
     }
 
-    public List<Role> findRolesByUserCode(String entCode, String userCode) {
-        List<UserRole> userRoles = userRoleDao.findByEntCodeAndUserCode(entCode, userCode);
+    public List<Role> findRolesByUserCode(String tenantCode, String userCode) {
+        List<UserRole> userRoles = userRoleDao.findByTenantCodeAndUserCode(tenantCode, userCode);
         List<String> roleCodes = userRoles.stream().map(UserRole::getRoleCode).collect(Collectors.toList());
         Conditions conditions = Conditions
-                .where("entCode").is(entCode)
+                .where("tenantCode").is(tenantCode)
                 .and("roleCode").in(roleCodes);
         return roleDao.findAll(conditions);
     }

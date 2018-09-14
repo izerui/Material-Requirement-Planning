@@ -12,7 +12,7 @@ public class UserSession extends User {
 
     private String account;
     private String userCode;
-    private String entCode;
+    private String tenantCode;
 
     public UserSession(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
@@ -38,14 +38,13 @@ public class UserSession extends User {
         this.userCode = userCode;
     }
 
-    public String getEntCode() {
-        return entCode;
+    public String getTenantCode() {
+        return tenantCode;
     }
 
-    public void setEntCode(String entCode) {
-        this.entCode = entCode;
+    public void setTenantCode(String tenantCode) {
+        this.tenantCode = tenantCode;
     }
-
 
     /**
      * 获取当前安全模型

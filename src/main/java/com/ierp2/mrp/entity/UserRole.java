@@ -14,8 +14,8 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //账套编号
-    private String entCode;
+    //租户编号
+    private String tenantCode;
 
     //用户编号
     private String userCode;
