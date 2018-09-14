@@ -1,9 +1,9 @@
 package com.ierp2.mrp.service;
 
-import com.ierp2.mrp.dao.*;
-import com.ierp2.mrp.entity.*;
 import com.ierp2.mrp.configuration.jpa.impl.Conditions;
 import com.ierp2.mrp.configuration.security.UserSession;
+import com.ierp2.mrp.dao.*;
+import com.ierp2.mrp.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -127,11 +127,20 @@ public class RbacService implements UserDetailsService {
         return roleDao.findAll(conditions);
     }
 
+    public User getUserByUserCode(String userCode) {
+        return userDao.findOne(Conditions.where("userCode").is(userCode));
+    }
+
     public List<Resource> findResources() {
         return resourceDao.findAll();
     }
 
-    public User getUserByUserCode(String userCode) {
-        return userDao.findOne(Conditions.where("userCode").is(userCode));
+    public List<User> findUsers() {
+        return userDao.findAll();
     }
+
+    public List<Role> findRoles() {
+        return roleDao.findAll();
+    }
+
 }
