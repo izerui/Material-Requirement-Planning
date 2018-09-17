@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,6 +27,13 @@ public class RbacApi {
     public Response<List<User>> listUsers(){
         List<User> users = rbacService.findUsers();
         return success(users);
+    }
+
+    @ApiOperation("详情-用户")
+    @GetMapping("/rbac/get-user")
+    public Response<User> getUser(@RequestParam("userCode")String userCode){
+        User user = rbacService.getUserByUserCode(userCode);
+        return success(user);
     }
 
     @ApiOperation("列表-角色")
