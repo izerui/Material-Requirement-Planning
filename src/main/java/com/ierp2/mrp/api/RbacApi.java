@@ -1,6 +1,7 @@
 package com.ierp2.mrp.api;
 
 import com.ierp2.mrp.configuration.web.Response;
+import com.ierp2.mrp.entity.Dept;
 import com.ierp2.mrp.entity.Role;
 import com.ierp2.mrp.entity.User;
 import com.ierp2.mrp.service.RbacService;
@@ -22,6 +23,13 @@ public class RbacApi {
     @Autowired
     RbacService rbacService;
 
+    @ApiOperation("列表-部门")
+    @GetMapping("/rbac/list-depts")
+    public Response<List<Dept>> listDepts(){
+        List<Dept> depts = rbacService.findDepts();
+        return success(depts);
+    }
+
     @ApiOperation("列表-用户")
     @GetMapping("/rbac/list-users")
     public Response<List<User>> listUsers(){
@@ -38,7 +46,7 @@ public class RbacApi {
 
     @ApiOperation("列表-角色")
     @GetMapping("/rbac/list-roles")
-    public Response<List<User>> listRoles(){
+    public Response<List<Role>> listRoles(){
         List<Role> roles = rbacService.findRoles();
         return success(roles);
     }

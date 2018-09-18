@@ -38,6 +38,8 @@ public class RbacService implements UserDetailsService {
     RoleResourceDao roleResourceDao;
     @Autowired
     ResourceDao resourceDao;
+    @Autowired
+    DeptDao deptDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -93,7 +95,7 @@ public class RbacService implements UserDetailsService {
 
     private Set<String> findAuthorities(User user) {
         Set<String> authorities = new HashSet<>();
-        if (user.getAdmin() == 1) {
+        if (user.isAdmin()) {
             List<Resource> resources = this.findResources();
             for (Resource resource : resources) {
                 authorities.add(resource.getResourceCode());
@@ -141,6 +143,10 @@ public class RbacService implements UserDetailsService {
 
     public List<Role> findRoles() {
         return roleDao.findAll();
+    }
+
+    public List<Dept> findDepts() {
+        return deptDao.findAll();
     }
 
 }

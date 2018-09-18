@@ -37,10 +37,10 @@ public class User extends BaseEntity {
     private String password;
 
     //部门编号
-    private String departmentCode;
+    private String deptCode;
 
     //是否管理员
-    private int admin;
+    private boolean admin;
 
     //头像
     private String avatar;
