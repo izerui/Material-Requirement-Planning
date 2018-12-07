@@ -1,4 +1,4 @@
-package com.ierp2.mrp.configuration.jpa;
+package com.ierp2.mrp.config.jpa;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

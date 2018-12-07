@@ -1,4 +1,4 @@
-package com.ierp2.mrp.configuration.jpa.impl;
+package com.ierp2.mrp.config.jpa.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

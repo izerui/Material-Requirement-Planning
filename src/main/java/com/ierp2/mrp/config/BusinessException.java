@@ -1,4 +1,4 @@
-package com.ierp2.mrp.configuration;
+package com.ierp2.mrp.config;
 
 /**
  * Created by serv on 2016/10/18.

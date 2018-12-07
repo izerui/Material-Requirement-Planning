@@ -1,4 +1,4 @@
-package com.ierp2.mrp.configuration.security;
+package com.ierp2.mrp.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ierp2.mrp.entity.Resource;

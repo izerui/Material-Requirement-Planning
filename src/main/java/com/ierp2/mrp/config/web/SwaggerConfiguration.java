@@ -1,4 +1,4 @@
-package com.ierp2.mrp.configuration.web;
+package com.ierp2.mrp.config.web;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;

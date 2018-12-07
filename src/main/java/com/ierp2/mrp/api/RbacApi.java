@@ -1,6 +1,6 @@
 package com.ierp2.mrp.api;
 
-import com.ierp2.mrp.configuration.web.Response;
+import com.ierp2.mrp.config.web.Response;
 import com.ierp2.mrp.entity.Dept;
 import com.ierp2.mrp.entity.Role;
 import com.ierp2.mrp.entity.User;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.ierp2.mrp.configuration.web.Response.*;
+import static com.ierp2.mrp.config.web.Response.*;
 
 @Api(description = "RBAC管理api")
 @RestController

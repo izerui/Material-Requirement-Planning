@@ -1,7 +1,7 @@
 package com.ierp2.mrp.api;
 
-import com.ierp2.mrp.configuration.security.UserSession;
-import com.ierp2.mrp.configuration.web.Response;
+import com.ierp2.mrp.config.security.UserSession;
+import com.ierp2.mrp.config.web.Response;
 import com.ierp2.mrp.entity.User;
 import com.ierp2.mrp.service.RbacService;
 import io.swagger.annotations.Api;
@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import java.util.Map;
 
-import static com.ierp2.mrp.configuration.web.Response.error;
-import static com.ierp2.mrp.configuration.web.Response.success;
+import static com.ierp2.mrp.config.web.Response.error;
+import static com.ierp2.mrp.config.web.Response.success;
 
 @Api(description = "获取已登录用户相关信息")
 @RestController

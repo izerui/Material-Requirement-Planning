@@ -1,4 +1,4 @@
-package com.ierp2.mrp.configuration.druid;
+package com.ierp2.mrp.config.druid;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;

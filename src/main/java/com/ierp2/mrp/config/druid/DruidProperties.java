@@ -1,4 +1,4 @@
-package com.ierp2.mrp.configuration.druid;
+package com.ierp2.mrp.config.druid;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

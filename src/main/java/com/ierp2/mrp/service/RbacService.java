@@ -1,7 +1,7 @@
 package com.ierp2.mrp.service;
 
-import com.ierp2.mrp.configuration.jpa.impl.Conditions;
-import com.ierp2.mrp.configuration.security.UserSession;
+import com.ierp2.mrp.config.jpa.impl.Conditions;
+import com.ierp2.mrp.config.security.UserSession;
 import com.ierp2.mrp.dao.*;
 import com.ierp2.mrp.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
