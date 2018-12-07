@@ -21,3 +21,4 @@ bin-debug
 /build/
 /.gradle/
 deploy.sh
+node_modules
