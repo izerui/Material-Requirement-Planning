@@ -44,7 +44,7 @@ public class ContextApi {
 
     @ApiOperation("param多种请求类型测试")
     @RequestMapping("/context/test-param")
-    public Response<String> testParam(@RequestParam("name") String name){
+    public Response<String> testParam(@RequestParam(value = "name",required = false) String name){
         return success("hello: "+name);
     }
 
