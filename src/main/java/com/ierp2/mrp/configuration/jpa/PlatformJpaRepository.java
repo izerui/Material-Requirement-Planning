@@ -17,6 +17,8 @@ import java.util.List;
 @NoRepositoryBean
 public interface PlatformJpaRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
 
+    T findOne(ID id);
+
     T findOne(Conditions conditions);
 
     T findOne(Conditions conditions, Sort sort);
@@ -70,8 +72,6 @@ public interface PlatformJpaRepository<T, ID extends Serializable> extends JpaRe
     <R> R aggregate(Conditions conditions, String aggregate, Class<R> resultClass);
 
     <R> R aggregate(String aggregate, Class<R> resultClass);
-
-    void deleteAll(Iterable<ID> ids);
 
     void deleteAll(Conditions conditions);
 

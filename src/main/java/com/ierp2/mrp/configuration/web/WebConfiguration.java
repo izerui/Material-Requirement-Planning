@@ -14,7 +14,11 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
+        // 此登录页仅做测试用
         registry.addViewController("/login").setViewName("login");
+
+        registry.addRedirectViewController("/api.html", "/swagger-ui.html");
+        registry.addRedirectViewController("/api", "/swagger-ui.html");
     }
 
 

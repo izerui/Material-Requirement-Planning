@@ -1,15 +1,15 @@
 package com.ierp2.mrp;
 
 
-import com.ierp2.mrp.configuration.jpa.factory.PlatformJpaRepositoryFactoryBean;
+import com.ierp2.mrp.configuration.jpa.impl.PlatformRepositoryImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.system.ApplicationPidFileWriter;
+import org.springframework.boot.context.ApplicationPidFileWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(repositoryFactoryBeanClass = PlatformJpaRepositoryFactoryBean.class)
+@EnableJpaRepositories(repositoryBaseClass = PlatformRepositoryImpl.class)
 public class MrpApplication {
 
     @Bean

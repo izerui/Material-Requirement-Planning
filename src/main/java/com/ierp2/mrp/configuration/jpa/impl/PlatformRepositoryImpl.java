@@ -47,10 +47,25 @@ public class PlatformRepositoryImpl<T, ID extends Serializable> extends SimpleJp
     private final EntityManager entityManager;
     private final JpaEntityInformation<T, ?> entityInformation;
 
+    public PlatformRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
+        super(entityInformation, entityManager);
+        this.entityInformation = entityInformation;
+        this.entityManager = entityManager;
+    }
+
     public PlatformRepositoryImpl(Class<T> domainClass, EntityManager entityManager) {
         super(domainClass, entityManager);
         this.entityManager = entityManager;
         this.entityInformation = JpaEntityInformationSupport.getEntityInformation(domainClass, entityManager);
+    }
+
+    @Override
+    public T findOne(ID id) {
+        Optional<T> optional = this.findById(id);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        return null;
     }
 
     @Override
@@ -295,13 +310,6 @@ public class PlatformRepositoryImpl<T, ID extends Serializable> extends SimpleJp
     }
 
     @Override
-    public void deleteAll(Iterable<ID> ids) {
-        for (ID id : ids) {
-            super.delete(id);
-        }
-    }
-
-    @Override
     public void deleteAll(Conditions conditions) {
         new JpqlQueryHolder(conditions).createDeleteQuery().executeUpdate();
     }
@@ -368,13 +376,14 @@ public class PlatformRepositoryImpl<T, ID extends Serializable> extends SimpleJp
         private final static String FIND_ALL_QUERY_STRING = "from %s " + ALIAS;
 
         private String condition;
-        private Sort sort = null;
+        private Sort sort = Sort.unsorted();
         private Map params;
 
         private JpqlQueryHolder() {
         }
 
         private JpqlQueryHolder(Sort sort) {
+            Assert.notNull(sort);
             this.sort = sort;
         }
 
@@ -384,6 +393,9 @@ public class PlatformRepositoryImpl<T, ID extends Serializable> extends SimpleJp
         }
 
         private JpqlQueryHolder(Conditions conditions, Sort sort) {
+            if (sort == null) {
+                sort = Sort.unsorted();
+            }
             this.params = new HashMap<>();
             this.condition = conditions.toQL(this.params);
             this.sort = sort;

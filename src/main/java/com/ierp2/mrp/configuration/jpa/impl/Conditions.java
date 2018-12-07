@@ -8,19 +8,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
-public class Conditions {
+public class Conditions implements Cloneable {
 
     private Logger logger = LoggerFactory.getLogger(Conditions.class);
 
     private List<Condition> cdList = new ArrayList<>();
 
-    private String andOr;
-    private Conditions cds;
+    private List<CombCondition> combList = new ArrayList<>();
 
-    private Conditions() {
+    public Conditions() {
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     public static Conditions empty() {
@@ -28,9 +33,7 @@ public class Conditions {
     }
 
     public static Conditions where() {
-        Conditions conditions = new Conditions();
-        conditions.andOr = "";
-        return conditions;
+        return new Conditions();
     }
 
     public static Conditions where(String field) {
@@ -50,14 +53,12 @@ public class Conditions {
     }
 
     public Conditions and(Conditions conditions) {
-        this.andOr = "and";
-        this.cds = conditions;
+        this.combList.add(new CombCondition("and",conditions));
         return this;
     }
 
     public Conditions or(Conditions conditions) {
-        this.andOr = "or";
-        this.cds = conditions;
+        this.combList.add(new CombCondition("or",conditions));
         return this;
     }
 
@@ -120,6 +121,18 @@ public class Conditions {
         return this;
     }
 
+    public Conditions remove(String filed) {
+        List<Condition> conditions =
+                this.cdList.stream().filter(condition -> !condition.getField().equalsIgnoreCase(filed)).collect(Collectors.toList());
+        if (conditions != null && conditions.size() > 0) {
+            conditions.get(0).andOr = "";
+            this.cdList.clear();
+            this.cdList.addAll(conditions);
+        }
+        return this;
+    }
+
+
     @Override
     public String toString() {
         return toQL(new HashMap<>());
@@ -136,9 +149,12 @@ public class Conditions {
             sb.append(condition.toQL(params));
         }
 
-        if (cds != null) {
-            sb.append(this.andOr);
-            sb.append(cds.toQL(params));
+        if (combList != null) {
+
+            for (CombCondition comb : combList) {
+                sb.append(comb.andOr);
+                sb.append(comb.toQL(params));
+            }
         }
 
         sb.append(") ");
@@ -146,6 +162,37 @@ public class Conditions {
         String ql = sb.toString();
         logger.debug(ql);
         return ql;
+    }
+
+    private static class CombCondition{
+        private String andOr;
+        private Conditions cds;
+
+        public CombCondition(String andOr, Conditions cds) {
+            this.andOr = andOr;
+            this.cds = cds;
+        }
+
+        public String getAndOr() {
+            return andOr;
+        }
+
+        public void setAndOr(String andOr) {
+            this.andOr = andOr;
+        }
+
+        public Conditions getCds() {
+            return cds;
+        }
+
+        public void setCds(Conditions cds) {
+            this.cds = cds;
+        }
+
+        private String toQL(Map<String, Object> params) {
+            return cds.toQL(params);
+        }
+
     }
 
     private static class Condition {
@@ -186,6 +233,22 @@ public class Conditions {
         private Condition value(Object value) {
             this.value = value;
             return this;
+        }
+
+        public String getAndOr() {
+            return andOr;
+        }
+
+        public String getField() {
+            return field;
+        }
+
+        public String getExpress() {
+            return express;
+        }
+
+        public Object getValue() {
+            return value;
         }
     }
 
