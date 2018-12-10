@@ -1,5 +1,5 @@
 {
-  "name": "Material-Requirement-Planning-UI",
+  "name": "platform-ui",
   "version": "3.6.0",
   "license": "MIT",
   "description": "A vue admin template with Element UI & axios & iconfont & permission control & lint",
