@@ -22,6 +22,7 @@
     },
     watch: {
       $route() {
+        this.$get("");
         this.listRoles();
       }
     },
