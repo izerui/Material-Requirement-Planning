@@ -1,5 +1,6 @@
 import qs from 'qs';
 import router from '../router';
+
 /**
  * Created by lucas on 2017/8/4.
  */
@@ -33,7 +34,7 @@ export default function plugin(Vue, axios) {
     return;
   }
   const checkStatus = (response) => {
-    const { status, statusText } = response;
+    const {status, statusText} = response;
     if (status >= 200 && status < 300) {
       return response;
     }
@@ -58,10 +59,10 @@ export default function plugin(Vue, axios) {
       // NProgress.done()
       return data;
     }
-    const { success, errCode, errMsg } = data;
+    const {success, errCode, errMsg} = data;
     if (!success) {
       if (errCode === 'UN_LOGIN') {
-        router.push({ path: '/login' })
+        router.push({path: '/login'})
       } else {
         Vue.prototype.$message.error(errMsg === undefined || errMsg === null || errMsg === '' ? '服务器异常' : errMsg);
       }
@@ -71,7 +72,7 @@ export default function plugin(Vue, axios) {
   }, (error) => {
     // NProgress.done()
     if (error.response) {
-      const { status, statusText } = error.response;
+      const {status, statusText} = error.response;
       const errorText = codeMessage[status] || statusText;
       Vue.prototype.$message.error(errorText);
     }
@@ -88,11 +89,13 @@ export default function plugin(Vue, axios) {
     $get: {
       get() {
         return (url, param) => new Promise((resolve, reject) => {
-          axios.get(url, { params: param }).then((resp) => {
+          axios.get(url, {params: param}).then((resp) => {
             if (resp.success) {
               resolve(resp.data)
             } else {
-              Vue.prototype.$message.error(resp.errMsg);
+              if (url.indexOf("/context/user-info") === -1) {
+                Vue.prototype.$message.error(resp.errMsg);
+              }
             }
           }).catch(error => {
             reject(error)
@@ -103,7 +106,7 @@ export default function plugin(Vue, axios) {
     $post: {
       get() {
         return (url, data, useBody = false) => new Promise((resolve, reject) => {
-          axios.post(url, useBody ? data : qs.stringify(data, { arrayFormat: 'brackets' })).then((resp) => {
+          axios.post(url, useBody ? data : qs.stringify(data, {arrayFormat: 'brackets'})).then((resp) => {
             if (resp.success) {
               resolve(resp.data)
             } else {
@@ -118,7 +121,7 @@ export default function plugin(Vue, axios) {
     $put: {
       get() {
         return (url, data, useBody = false) => new Promise((resolve, reject) => {
-          axios.put(url, useBody ? data : qs.stringify(data, { arrayFormat: 'brackets' })).then((resp) => {
+          axios.put(url, useBody ? data : qs.stringify(data, {arrayFormat: 'brackets'})).then((resp) => {
             if (resp.success) {
               resolve(resp.data)
             } else {
@@ -133,7 +136,7 @@ export default function plugin(Vue, axios) {
     $patch: {
       get() {
         return (url, data) => new Promise((resolve, reject) => {
-          axios.patch(url, qs.stringify(data, { arrayFormat: 'brackets' })).then((resp) => {
+          axios.patch(url, qs.stringify(data, {arrayFormat: 'brackets'})).then((resp) => {
             if (resp.success) {
               resolve(resp.data)
             } else {
@@ -148,7 +151,7 @@ export default function plugin(Vue, axios) {
     $delete: {
       get() {
         return (url, data) => new Promise((resolve, reject) => {
-          axios.delete(url + '?' + qs.stringify(data, { arrayFormat: 'brackets' })).then((resp) => {
+          axios.delete(url + '?' + qs.stringify(data, {arrayFormat: 'brackets'})).then((resp) => {
             if (resp.success) {
               resolve(resp.data)
             } else {
