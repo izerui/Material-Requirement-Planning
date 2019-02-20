@@ -17,11 +17,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.github.platform.jpa.base.Conditions.where;
@@ -96,20 +94,14 @@ public class SecurityService implements UserDetailsService {
 
 
     private Set<String> findUserAuthorities(User user) {
-        Set<String> authorities = new HashSet<>();
+        List<Resource> resources;
         if (user.isAdmin()) {
-            List<Resource> resources = resourceDao.findAll();
-            for (Resource resource : resources) {
-                authorities.add(resource.getResourceCode());
-            }
+            resources = resourceDao.findAll();
         } else {
             List<String> roleCodes = this.findRoleCodesByUserCode(user.getTenantCode(), user.getUserCode());
-            List<Resource> resources = this.findResourcesByRoleCodes(user.getTenantCode(), roleCodes);
-            for (Resource resource : resources) {
-                authorities.add(resource.getResourceCode());
-            }
+            resources = this.findResourcesByRoleCodes(user.getTenantCode(), roleCodes);
         }
-        return authorities;
+        return resources.stream().map(Resource::getResourceCode).collect(Collectors.toSet());
     }
 
 
@@ -117,7 +109,7 @@ public class SecurityService implements UserDetailsService {
         List<RoleResource> roleResources = roleResourceDao.findAll(
                 where("tenantCode").is(tenantCode).and("roleCode").in(roleCodes)
         );
-        List<String> resourceCodes = mapTo(roleResources, RoleResource::getResourceCode);
+        List<String> resourceCodes = roleResources.stream().map(RoleResource::getResourceCode).collect(Collectors.toList());
         return resourceDao.findAll(
                 where("resourceCode").in(resourceCodes)
         );
@@ -126,18 +118,13 @@ public class SecurityService implements UserDetailsService {
 
     public List<String> findRoleCodesByUserCode(String tenantCode, String userCode) {
         List<UserRole> userRoles = userRoleDao.findByTenantCodeAndUserCode(tenantCode, userCode);
-        List<String> roleCodes = mapTo(userRoles, UserRole::getRoleCode);
+        List<String> roleCodes = userRoles.stream().map(UserRole::getRoleCode).collect(Collectors.toList());
         return roleCodes;
     }
 
 
     public List<Resource> findResources() {
         return resourceDao.findAll();
-    }
-
-
-    private static <T, R> List<R> mapTo(List<T> list, Function<T, R> apply) {
-        return list.stream().map(apply).collect(Collectors.toList());
     }
 
 }
