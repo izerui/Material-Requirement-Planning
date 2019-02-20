@@ -46,6 +46,12 @@ public class UserSession extends User {
         this.tenantCode = tenantCode;
     }
 
+    @Deprecated
+    @Override
+    public String getUsername() {
+        return super.getUsername();
+    }
+
     /**
      * 获取当前安全模型
      */

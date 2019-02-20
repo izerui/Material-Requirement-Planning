@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="filter-container">
+      <el-button @click="add()">新增</el-button>
+    </div>
     <el-table :data="userList">
       <el-table-column type="index" label="序号"></el-table-column>
       <el-table-column prop="avatar" label="头像">
@@ -24,16 +27,16 @@
 </template>
 
 <script>
-  import Avatar from 'vue-avatar';
-  import UserForm from "./userForm";
+  import Avatar from 'vue-avatar'
+  import UserForm from './userForm'
 
   export default {
-    name: "index",
+    name: 'index',
     components: {
       UserForm,
       Avatar
     },
-    data() {
+    data () {
       return {
         userList: [],
         form: {
@@ -42,31 +45,34 @@
         }
       }
     },
-    created() {
-      this.listUsers();
+    created () {
+      this.listUsers()
     },
-    computed: {
-    },
+    computed: {},
     watch: {
-      $route() {
-        this.listUsers();
+      $route () {
+        this.listUsers()
       }
     },
     methods: {
-      async listUsers() {
-        this.userList = await this.$get("/rbac/list-users");
+      async listUsers () {
+        this.userList = await this.$get('/rbac/list-users')
       },
-      edit(item) {
-        this.form.state = 'edit';
-        this.form.userCode = item.userCode;
-        this.form.show = true;
+      edit (item) {
+        this.form.state = 'edit'
+        this.form.userCode = item.userCode
+        this.form.show = true
+      },
+      add () {
+        this.$message.info("djfdsjfdsf");
       }
     }
-
 
   }
 </script>
 
 <style scoped>
-
+  .filter-container {
+    padding-bottom: 10px;
+  }
 </style>

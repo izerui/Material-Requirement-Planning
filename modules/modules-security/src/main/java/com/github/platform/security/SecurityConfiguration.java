@@ -3,7 +3,7 @@ package com.github.platform.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.platform.rbac.dto.UserSession;
 import com.github.platform.rbac.entity.Resource;
-import com.github.platform.rbac.service.RbacService;
+import com.github.platform.rbac.service.SecurityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +41,7 @@ import java.util.Map;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    RbacService rbacService;
+    SecurityService securityService;
     @Autowired
     ObjectMapper objectMapper;
 
@@ -49,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(rbacService);
+        provider.setUserDetailsService(securityService);
         provider.setHideUserNotFoundExceptions(false);
         provider.setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
         return provider;
@@ -58,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public SwitchLoginUserFilter switchUserFilter() {
         SwitchLoginUserFilter switchUserFilter = new SwitchLoginUserFilter();
-        switchUserFilter.setUserDetailsService(rbacService);
+        switchUserFilter.setUserDetailsService(securityService);
         switchUserFilter.setUsernameParameter("tenantCode");
         switchUserFilter.setSuccessHandler(this::onLoginSuccess);
         return switchUserFilter;
@@ -91,7 +91,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().sameOrigin();
 
         //初始化全局权限对应表
-        List<Resource> resources = rbacService.findResources();
+        List<Resource> resources = securityService.findResources();
         for (Resource resource : resources) {
             if (resource.getPermissionUrl() != null && !"".equals(resource.getPermissionUrl())) {
                 log.info("permission: [url:{} , code:{}]", resource.getPermissionUrl(), resource.getResourceCode());
