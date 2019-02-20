@@ -39,16 +39,16 @@ public class RbacService {
         return resourceDao.findAll();
     }
 
-    public List<User> findUsers() {
-        return userDao.findAll();
+    public List<User> findUsers(String tenantCode) {
+        return userDao.findByTenantCode(tenantCode);
     }
 
-    public List<Role> findRoles() {
-        return roleDao.findAll();
+    public List<Role> findRoles(String tenantCode) {
+        return roleDao.findByTenantCode(tenantCode);
     }
 
-    public List<Dept> findDepts() {
-        return deptDao.findAll();
+    public List<Dept> findDepts(String tenantCode) {
+        return deptDao.findByTenantCode(tenantCode);
     }
 
 }
