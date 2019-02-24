@@ -15,6 +15,7 @@
         <module>commons/commons-core</module>
         <module>modules/modules-rbac</module>
         <module>modules/modules-security</module>
+        <module>modules/modules-order</module>
     </modules>
 
     <name>platform</name>

@@ -37,6 +37,11 @@
             <artifactId>modules-rbac</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.platform</groupId>
+            <artifactId>modules-order</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- 模块依赖 end -->
 
 
