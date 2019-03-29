@@ -112,6 +112,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(
+                        "/",
+                        "/static/**",
                         "/login",
                         "/v2/api-docs",
                         "/swagger-resources",

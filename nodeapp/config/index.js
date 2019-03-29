@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/': {
-        target: 'http://localhost:8086', //源地址
+        target: 'http://dev.9push.com', //源地址
         changeOrigin: true //改变源
       }
     },
