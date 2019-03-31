@@ -4,7 +4,7 @@
     <breadcrumb></breadcrumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        {{user.userName}}
+        {{user.nickName}}
         <img class="user-avatar" :src="user.avatar">
         <i class="el-icon-caret-bottom"></i>
       </div>

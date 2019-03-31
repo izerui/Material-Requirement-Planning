@@ -131,7 +131,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         final HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
                         UserSession loginUser = UserSession.getUser();
                         HeaderMapRequestWrapper wrapper = new HeaderMapRequestWrapper(httpRequest);
-                        wrapper.addHeader("account", loginUser.getAccount());
+                        wrapper.addHeader("userName", loginUser.getUsername());
                         wrapper.addHeader("userCode", loginUser.getUserCode());
                         wrapper.addHeader("tenantCode", loginUser.getTenantCode());
                         filterChain.doFilter(wrapper, servletResponse);

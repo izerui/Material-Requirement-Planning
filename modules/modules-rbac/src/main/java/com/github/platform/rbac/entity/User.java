@@ -18,24 +18,21 @@ public class User extends BaseEntity {
     @Column(unique = true, nullable = false, updatable = false, length = 64)
     private String userCode;
 
-    //用户名
+    //用户名 手机号
     private String userName;
-
-    //排序
-    private int sort;
-
-    //状态：-1删除 -2离职 0禁用 1正常 2待绑定
-    private int recordStatus;
-
-    //账套
-    private String tenantCode;
-
-    //登录账号/手机号
-    private String account;
 
     //密码
     @JsonIgnore
     private String password;
+
+    //昵称
+    private String nickName;
+
+    //状态：-1删除 0禁用 1正常
+    private int recordStatus;
+
+    //租户
+    private String tenantCode;
 
     //部门编号
     private String deptCode;
@@ -45,8 +42,5 @@ public class User extends BaseEntity {
 
     //头像
     private String avatar;
-
-    //性别
-    private String gender;
 
 }

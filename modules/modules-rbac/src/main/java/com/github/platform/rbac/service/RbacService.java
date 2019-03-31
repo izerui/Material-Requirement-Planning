@@ -32,7 +32,7 @@ public class RbacService {
     DeptDao deptDao;
 
     public User getUserByUserCode(String userCode) {
-        return userDao.findOne(Conditions.where("userCode").is(userCode));
+        return userDao.findByUserCode(userCode);
     }
 
     public List<Resource> findResources() {

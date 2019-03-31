@@ -45,18 +45,14 @@ public class SecurityService implements UserDetailsService {
     @Deprecated
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return loadUserByAccount(username);
-    }
-
-    private UserDetails loadUserByAccount(String account) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Boolean swithUser = (Boolean) request.getAttribute("switchUser");
         if (swithUser != null && swithUser) {
-            account = (String) request.getAttribute("account");
+            username = (String) request.getAttribute("userName");
         }
         //获取账号下多个租户下的用户
         List<User> users = userDao.findAll(
-                where("account").is(account).and("recordStatus").is(1)
+                where("username").is(username).and("recordStatus").is(1)
         );
         if (users != null && users.size() > 0) {
             String tenantCode = (String) request.getAttribute("tenantCode");
@@ -77,7 +73,7 @@ public class SecurityService implements UserDetailsService {
     private UserSession createSession(User user) {
         //加载用户权限
         Set<String> authorities = this.findUserAuthorities(user);
-        UserSession userSession = new UserSession(user.getAccount(),
+        UserSession userSession = new UserSession(user.getUserName(),
                 user.getPassword(),
                 user.getRecordStatus() == 1,
                 true,
@@ -86,7 +82,6 @@ public class SecurityService implements UserDetailsService {
                 AuthorityUtils.createAuthorityList(authorities.toArray(new String[authorities.size()]))
         );
         //权限集合
-        userSession.setAccount(user.getAccount());
         userSession.setUserCode(user.getUserCode());
         userSession.setTenantCode(user.getTenantCode());
         return userSession;

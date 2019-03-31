@@ -10,7 +10,6 @@ import java.util.Collections;
 
 public class UserSession extends User {
 
-    private String account;
     private String userCode;
     private String tenantCode;
 
@@ -20,14 +19,6 @@ public class UserSession extends User {
 
     public UserSession(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
     }
 
     public String getUserCode() {
@@ -46,7 +37,6 @@ public class UserSession extends User {
         this.tenantCode = tenantCode;
     }
 
-    @Deprecated
     @Override
     public String getUsername() {
         return super.getUsername();

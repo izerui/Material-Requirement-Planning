@@ -14,9 +14,9 @@ public class SwitchLoginUserFilter extends SwitchUserFilter {
 
     @Override
     protected Authentication attemptSwitchUser(HttpServletRequest request) throws AuthenticationException {
-        String account = UserSession.getUser().getAccount();
+        String userName = UserSession.getUser().getUsername();
         request.setAttribute("switchUser", true);
-        request.setAttribute("account", account);
+        request.setAttribute("userName", userName);
         request.setAttribute("tenantCode", request.getParameter("tenantCode"));
         return super.attemptSwitchUser(request);
     }
